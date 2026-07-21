@@ -1,7 +1,6 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { dbEntities } from '@/lib/firestore';
 
 import SectionHeader from "@/components/shared/SectionHeader";
 import AnnouncementBlock from "@/components/shared/AnnouncementBlock";
@@ -28,7 +27,7 @@ export default function Home() {
   const [settings, setSettings] = useState({});
 
   useEffect(() => {
-    db.entities.SiteSetting.list()
+    dbEntities.SiteSetting.list()
       .then((items) => {
         const map = {};
         items.forEach((s) => { map[s.setting_key] = s.setting_value; });

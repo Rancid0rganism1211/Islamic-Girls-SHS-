@@ -1,7 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
-
+import { dbEntities } from '@/lib/firestore';
 import { assignHouse } from "@/lib/houseLogic";
 
 const CREST = "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/820a2436b_generated_b8b55bb9.png";
@@ -22,7 +20,7 @@ export default function StudentMasterList() {
   const [printing, setPrinting] = useState(false);
 
   useEffect(() => {
-    db.entities.Placement.list("-created_date", 200)
+    dbEntities.Placement.list("-created_date", 200)
       .then((records) => {
         const withHouses = records.map((r) => {
           const house = assignHouse(r.index_number, r.residential_status);

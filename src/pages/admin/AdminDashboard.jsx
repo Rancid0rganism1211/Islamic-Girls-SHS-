@@ -1,7 +1,6 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { dbEntities } from '@/lib/firestore';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ placements: 0, announcements: 0, events: 0, timetable: 0 });
@@ -9,10 +8,10 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     Promise.all([
-      db.entities.Placement.list(undefined, 1).then((r) => r.length),
-      db.entities.Announcement.filter({ is_active: true }).then((r) => r.length),
-      db.entities.SchoolEvent.filter({ is_active: true }).then((r) => r.length),
-      db.entities.Timetable.list(undefined, 1).then((r) => r.length),
+      dbEntities.Placement.list(undefined, 1).then((r) => r.length),
+      dbEntities.Announcement.filter({ is_active: true }).then((r) => r.length),
+      dbEntities.SchoolEvent.filter({ is_active: true }).then((r) => r.length),
+      dbEntities.Timetable.list(undefined, 1).then((r) => r.length),
     ]).then(([placements, announcements, events, timetable]) => {
       setStats({ placements, announcements, events, timetable });
       setLoading(false);

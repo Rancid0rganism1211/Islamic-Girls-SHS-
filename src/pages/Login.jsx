@@ -1,7 +1,7 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,7 @@ export default function Login() {
     setError("");
     setLoading(true);
     try {
-      await db.auth.loginViaEmailPassword(email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       window.location.href = "/admin/dashboard";
     } catch (err) {
       setError(err.message || "Invalid email or password");
@@ -30,8 +30,14 @@ export default function Login() {
     }
   };
 
-  const handleGoogle = () => {
-    db.auth.loginWithProvider("google", "/admin/dashboard");
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      window.location.href = "/admin/dashboard";
+    } catch (err) {
+      setError(err.message || "Google sign-in failed");
+    }
   };
 
   return (

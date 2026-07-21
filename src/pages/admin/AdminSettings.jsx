@@ -1,7 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
-
+import { dbEntities } from '@/lib/firestore';
 import { useToast } from "@/components/ui/use-toast";
 
 const DEFAULT_SETTINGS = [
@@ -22,15 +20,15 @@ export default function AdminSettings() {
   const load = async () => {
     setLoading(true);
     try {
-      const existing = await db.entities.SiteSetting.list();
+      const existing = await dbEntities.SiteSetting.list();
       
       // Ensure default settings exist
       const existingKeys = existing.map((s) => s.setting_key);
       const toCreate = DEFAULT_SETTINGS.filter((d) => !existingKeys.includes(d.setting_key));
       
       if (toCreate.length > 0) {
-        await db.entities.SiteSetting.bulkCreate(toCreate);
-        const updated = await db.entities.SiteSetting.list();
+        await dbEntities.SiteSetting.bulkCreate(toCreate);
+        const updated = await dbEntities.SiteSetting.list();
         setSettings(updated);
       } else {
         setSettings(existing);
@@ -46,7 +44,7 @@ export default function AdminSettings() {
   const handleUpdate = async (id, value) => {
     setSaving(true);
     try {
-      await db.entities.SiteSetting.update(id, { setting_value: value });
+      await dbEntities.SiteSetting.update(id, { setting_value: value });
       toast({ title: "Saved" });
     } catch {
       toast({ title: "Error saving", variant: "destructive" });
@@ -57,7 +55,7 @@ export default function AdminSettings() {
   const handleAddCustom = async () => {
     if (!newKey || !newLabel) return;
     try {
-      await db.entities.SiteSetting.create({ setting_key: newKey.toLowerCase().replace(/\s+/g, "_"), setting_label: newLabel, setting_value: "" });
+      await dbEntities.SiteSetting.create({ setting_key: newKey.toLowerCase().replace(/\s+/g, "_"), setting_label: newLabel, setting_value: "" });
       setNewKey("");
       setNewLabel("");
       load();
@@ -69,7 +67,7 @@ export default function AdminSettings() {
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this setting?")) return;
-    await db.entities.SiteSetting.delete(id);
+    await dbEntities.SiteSetting.delete(id);
     load();
   };
 

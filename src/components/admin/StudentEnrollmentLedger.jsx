@@ -1,7 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
-
+import { dbEntities } from '@/lib/firestore';
 import { assignHouse } from "@/lib/houseLogic";
 import { SCHOOL_IMAGES } from "@/lib/schoolImages";
 
@@ -15,7 +13,7 @@ export default function StudentEnrollmentLedger() {
   const [printing, setPrinting] = useState(false);
 
   useEffect(() => {
-    db.entities.Placement.list("-created_date", 500)
+    dbEntities.Placement.list("-created_date", 500)
       .then((records) => {
         const withHouses = records.map((r) => {
           const house = assignHouse(r.index_number, r.residential_status);

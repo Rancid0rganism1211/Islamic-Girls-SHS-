@@ -1,6 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect, useRef } from "react";
+import { dbEntities } from '@/lib/firestore';
 
 import SectionHeader from "@/components/shared/SectionHeader";
 import PlacementForm from "@/components/placement/PlacementForm";
@@ -22,7 +21,7 @@ export default function Admissions() {
   const portalRef = useRef(null);
 
   useEffect(() => {
-    db.entities.SiteSetting.list()
+    dbEntities.SiteSetting.list()
       .then((items) => {
         const map = {};
         items.forEach((s) => { map[s.setting_key] = s.setting_value; });
@@ -42,7 +41,7 @@ export default function Admissions() {
     setError("");
     setIndexNumber(idx);
     try {
-      const results = await db.entities.Placement.filter({ index_number: idx });
+      const results = await dbEntities.Placement.filter({ index_number: idx });
       if (results.length === 0) {
         setError("No placement record found for this index number. Please verify and try again.");
         setStep("input");

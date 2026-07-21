@@ -1,7 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
-
+import { dbEntities } from '@/lib/firestore';
 import { useToast } from "@/components/ui/use-toast";
 
 const emptyForm = { title: "", description: "", event_date: "", event_time: "", location: "", is_active: true };
@@ -15,7 +13,7 @@ export default function AdminEvents() {
 
   const load = () => {
     setLoading(true);
-    db.entities.SchoolEvent.list("-event_date", 50)
+    dbEntities.SchoolEvent.list("-event_date", 50)
       .then(setItems)
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -30,10 +28,10 @@ export default function AdminEvents() {
     }
     try {
       if (editing) {
-        await db.entities.SchoolEvent.update(editing, form);
+        await dbEntities.SchoolEvent.update(editing, form);
         toast({ title: "Updated" });
       } else {
-        await db.entities.SchoolEvent.create(form);
+        await dbEntities.SchoolEvent.create(form);
         toast({ title: "Created" });
       }
       setEditing(null);
@@ -46,7 +44,7 @@ export default function AdminEvents() {
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this event?")) return;
-    await db.entities.SchoolEvent.delete(id);
+    await dbEntities.SchoolEvent.delete(id);
     load();
   };
 

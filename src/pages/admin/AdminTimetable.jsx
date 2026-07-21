@@ -1,7 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
-
+import { dbEntities } from '@/lib/firestore';
 import { useToast } from "@/components/ui/use-toast";
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -21,7 +19,7 @@ export default function AdminTimetable() {
 
   const loadEntries = () => {
     setLoading(true);
-    db.entities.Timetable.list("-created_date", 200)
+    dbEntities.Timetable.list("-created_date", 200)
       .then(setEntries)
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -36,10 +34,10 @@ export default function AdminTimetable() {
     }
     try {
       if (editing) {
-        await db.entities.Timetable.update(editing, form);
+        await dbEntities.Timetable.update(editing, form);
         toast({ title: "Updated", description: "Timetable entry updated." });
       } else {
-        await db.entities.Timetable.create(form);
+        await dbEntities.Timetable.create(form);
         toast({ title: "Created", description: "Timetable entry added." });
       }
       setEditing(null);
@@ -52,7 +50,7 @@ export default function AdminTimetable() {
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this timetable entry?")) return;
-    await db.entities.Timetable.delete(id);
+    await dbEntities.Timetable.delete(id);
     toast({ title: "Deleted" });
     loadEntries();
   };

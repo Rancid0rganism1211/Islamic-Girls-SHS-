@@ -1,6 +1,5 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
+import { dbEntities } from '@/lib/firestore';
 
 const priorityStyles = {
   high: "border-l-red-500 bg-red-50",
@@ -12,7 +11,8 @@ export default function AnnouncementBlock() {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    db.entities.Announcement.filter({ is_active: true }, "-created_date", 5)
+    dbEntities.Announcement.filter({ is_active: true })
+      .then((results) => results.slice(0, 5))
       .then(setAnnouncements)
       .catch(() => {});
   }, []);

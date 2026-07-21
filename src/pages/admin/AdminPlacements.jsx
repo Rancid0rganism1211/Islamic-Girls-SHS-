@@ -1,7 +1,6 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState, useEffect } from "react";
-
+import * as XLSX from 'xlsx';
+import { dbEntities } from '@/lib/firestore';
 import { useToast } from "@/components/ui/use-toast";
 
 export default function AdminPlacements() {
@@ -14,7 +13,7 @@ export default function AdminPlacements() {
 
   const loadPlacements = () => {
     setLoading(true);
-    db.entities.Placement.list("-created_date", 50)
+    dbEntities.Placement.list("-created_date", 50)
       .then(setPlacements)
       .catch(() => toast({ title: "Error", description: "Failed to load placements", variant: "destructive" }))
       .finally(() => setLoading(false));
@@ -28,42 +27,26 @@ export default function AdminPlacements() {
 
     setUploading(true);
     try {
-      // Upload and extract data
-      const { file_url } = await db.integrations.Core.UploadFile({ file });
-      const result = await db.integrations.Core.ExtractDataFromUploadedFile({
-        file_url,
-        json_schema: {
-          type: "object",
-          properties: {
-            records: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  index_number: { type: "string" },
-                  student_name: { type: "string" },
-                  program: { type: "string" },
-                  residential_status: { type: "string" },
-                  guardian_contact: { type: "string" }
-                }
-              }
-            }
-          }
-        }
-      });
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
 
-      if (result.status === "error") {
-        toast({ title: "Error", description: result.details, variant: "destructive" });
-        setUploading(false);
-        return;
-      }
-
-      const records = result.output?.records || [];
-      if (records.length === 0) {
+      if (jsonData.length === 0) {
         toast({ title: "No Data", description: "No records found in the uploaded file.", variant: "destructive" });
         setUploading(false);
         return;
       }
+
+      // Map the data to expected format
+      const records = jsonData.map(row => ({
+        index_number: row['Index Number'] || row['index_number'] || '',
+        student_name: row['Student Name'] || row['student_name'] || '',
+        program: row['Program'] || row['program'] || '',
+        residential_status: row['Residential Status'] || row['residential_status'] || '',
+        guardian_contact: row['Guardian Contact'] || row['guardian_contact'] || ''
+      }));
 
       // Show preview of first 5 rows
       setPreview(records);
@@ -80,7 +63,7 @@ export default function AdminPlacements() {
     setUploading(true);
     try {
       // Delete all existing placements
-      await db.entities.Placement.deleteMany({});
+      await dbEntities.Placement.deleteMany({});
 
       // Normalize and batch insert
       const normalized = preview.map((r) => ({
@@ -93,7 +76,7 @@ export default function AdminPlacements() {
 
       // Batch create in chunks of 50
       for (let i = 0; i < normalized.length; i += 50) {
-        await db.entities.Placement.bulkCreate(normalized.slice(i, i + 50));
+        await dbEntities.Placement.bulkCreate(normalized.slice(i, i + 50));
       }
 
       toast({ title: "Success!", description: `${normalized.length} placement records imported.` });
