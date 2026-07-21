@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 192 10% 20%;
+    --card: 40 33% 98%;
+    --card-foreground: 192 10% 20%;
+    --popover: 40 33% 98%;
+    --popover-foreground: 192 10% 20%;
+    --primary: 162 56% 16%;
+    --primary-foreground: 40 33% 98%;
+    --secondary: 40 33% 94%;
+    --secondary-foreground: 162 56% 16%;
+    --muted: 40 20% 94%;
+    --muted-foreground: 192 5% 40%;
+    --accent: 39 48% 55%;
+    --accent-foreground: 40 33% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 162 56% 16%;
+    --chart-1: 162 56% 16%;
+    --chart-2: 39 48% 55%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 162 56% 16%;
+    --sidebar-foreground: 40 33% 98%;
+    --sidebar-primary: 40 33% 98%;
+    --sidebar-primary-foreground: 162 56% 16%;
+    --sidebar-accent: 162 50% 22%;
+    --sidebar-accent-foreground: 40 33% 98%;
+    --sidebar-border: 162 40% 24%;
+    --sidebar-ring: 39 48% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Golden Thread Separator */
+.golden-thread {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C5A059, transparent);
+}
+
+/* Geometric Pattern Background */
+.geo-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23123E30' stroke-width='0.5' opacity='0.06'/%3E%3Cpath d='M30 10L50 30L30 50L10 30Z' fill='none' stroke='%23123E30' stroke-width='0.3' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Print Styles */
+.print-only { display: none; }
+.print-document { display: none; }
+
+@media print {
+  /* Hide everything, then reveal only the print document */
+  body * { visibility: hidden; }
+  .print-only, .print-only *,
+  .print-document, .print-document * { visibility: visible; }
+  .print-only, .print-document {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+  nav, footer, .no-print, .navbar, .site-footer {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+  .admission-card {
+    border: 2px solid #123E30 !important;
+    padding: 2rem !important;
+    margin: 1rem !important;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+  }
+}
+
+/* Ticker animation */
+@keyframes ticker {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-ticker {
+  animation: ticker 30s linear infinite;
+}
+
+/* Arch clip path */
+.arch-mask {
+  clip-path: ellipse(100% 95% at 50% 5%);
+}

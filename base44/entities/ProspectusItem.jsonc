@@ -1,0 +1,18 @@
+{
+  "name": "ProspectusItem",
+  "type": "object",
+  "properties": {
+    "programme": {
+      "type": "string",
+      "description": "Academic programme name (e.g. Science, General Arts, Home Economics, Business, Visual Art)"
+    },
+    "item": {
+      "type": "string",
+      "description": "Required item description shown on the programme prospectus"
+    }
+  },
+  "required": [
+    "programme",
+    "item"
+  ]
+}

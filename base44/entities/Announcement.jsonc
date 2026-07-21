@@ -1,0 +1,32 @@
+{
+  "name": "Announcement",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Announcement title"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full announcement text"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this announcement is currently displayed"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "medium"
+    }
+  },
+  "required": [
+    "title",
+    "content"
+  ]
+}
