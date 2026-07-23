@@ -33,19 +33,6 @@ import AdminEnrollment from '@/pages/admin/AdminEnrollment';
 import { ProspectusProvider } from '@/lib/prospectusContext';
 
 const AuthenticatedApp = () => {
-  const { isLoadingPublicSettings } = useAuth();
-
-  if (isLoadingPublicSettings) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-heritage-cream">
-        <div className="text-center">
-          <div className="w-10 h-10 border-4 border-heritage-green/20 border-t-heritage-green rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-sm text-heritage-slate/60">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <Routes>
       {/* Public pages with shared layout */}

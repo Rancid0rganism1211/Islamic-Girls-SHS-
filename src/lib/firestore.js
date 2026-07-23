@@ -15,8 +15,13 @@ import {
   deleteField
 } from 'firebase/firestore';
 
+// Demo mode fallback when Firebase is not configured
+const demoMode = !db;
+
 export const entities = {
   list: async (collectionName, orderByField = null, limit = 50) => {
+    if (demoMode) return [];
+    
     const colRef = collection(db, collectionName);
     let q = colRef;
     
@@ -35,6 +40,8 @@ export const entities = {
   },
 
   filter: async (collectionName, filterObj) => {
+    if (demoMode) return [];
+    
     const colRef = collection(db, collectionName);
     const constraints = Object.entries(filterObj).map(([key, value]) => 
       where(key, '==', value)
@@ -45,6 +52,8 @@ export const entities = {
   },
 
   get: async (collectionName, id) => {
+    if (demoMode) return null;
+    
     const docRef = doc(db, collectionName, id);
     const snapshot = await getDoc(docRef);
     if (!snapshot.exists()) return null;
@@ -52,6 +61,8 @@ export const entities = {
   },
 
   create: async (collectionName, data) => {
+    if (demoMode) return { id: 'demo-' + Date.now(), ...data };
+    
     const colRef = collection(db, collectionName);
     const docRef = await addDoc(colRef, {
       ...data,
@@ -61,6 +72,8 @@ export const entities = {
   },
 
   update: async (collectionName, id, data) => {
+    if (demoMode) return { id, ...data };
+    
     const docRef = doc(db, collectionName, id);
     await updateDoc(docRef, {
       ...data,
@@ -70,11 +83,15 @@ export const entities = {
   },
 
   delete: async (collectionName, id) => {
+    if (demoMode) return;
+    
     const docRef = doc(db, collectionName, id);
     await deleteDoc(docRef);
   },
 
   deleteMany: async (collectionName, filterObj = {}) => {
+    if (demoMode) return;
+    
     const colRef = collection(db, collectionName);
     let q = colRef;
     
@@ -94,6 +111,8 @@ export const entities = {
   },
 
   bulkCreate: async (collectionName, dataArray) => {
+    if (demoMode) return dataArray.map((data, i) => ({ id: 'demo-' + i, ...data }));
+    
     const colRef = collection(db, collectionName);
     const batch = writeBatch(db);
     const results = [];

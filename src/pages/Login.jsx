@@ -20,6 +20,13 @@ export default function Login() {
     e.preventDefault();
     setError("");
     setLoading(true);
+    
+    if (!auth) {
+      setError("Firebase not configured. Please set up Firebase credentials.");
+      setLoading(false);
+      return;
+    }
+    
     try {
       await signInWithEmailAndPassword(auth, email, password);
       window.location.href = "/admin/dashboard";
@@ -31,6 +38,11 @@ export default function Login() {
   };
 
   const handleGoogle = async () => {
+    if (!auth) {
+      setError("Firebase not configured. Please set up Firebase credentials.");
+      return;
+    }
+    
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);

@@ -11,6 +11,13 @@ export const AuthProvider = ({ children }) => {
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
+    if (!auth) {
+      // Demo mode - no Firebase configured
+      setIsLoadingAuth(false);
+      setAuthChecked(true);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setIsAuthenticated(!!currentUser);
@@ -22,7 +29,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const logout = async (shouldRedirect = true) => {
-    await signOut(auth);
+    if (auth) {
+      await signOut(auth);
+    }
     setUser(null);
     setIsAuthenticated(false);
     
