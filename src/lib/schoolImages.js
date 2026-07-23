@@ -1,24 +1,42 @@
+import logo from "../assets/images/logo.png";
+import entrance from "../assets/images/entrance.png";
+import signboard from "../assets/images/signboard.jpeg";
+import scienceLab from "../assets/images/scienceLab.png";
+import ictLab from "../assets/images/ictLab.png";
+import classroom12Unit from "../assets/images/classroom12Unit.png";
+import classroom18Unit from "../assets/images/classroom18Unit.jpeg";
+import dormPic from "../assets/images/dormPic.jpeg";
+import dorm from "../assets/images/dorm.jpeg";
+import dorm1 from "../assets/images/dorm1.jpeg";
+import cadet1 from "../assets/images/cadet1.jpeg";
+import cadet from "../assets/images/cadet.jpeg";
+import scienceStudents from "../assets/images/scienceStudents.jpeg";
+import ictLabPic from "../assets/images/ictLabPic.jpeg";
+import mosque from "../assets/images/mosque.png";
+import clinic from "../assets/images/clinic.jpeg";
+import staffBungalow from "../assets/images/staffBungalow.jpeg";
+
 const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
 
 // Official school imagery and data — sourced from the school's own assets.
 export const SCHOOL_IMAGES = {
-  logo: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/40b741fdd_Logo.jpeg",
-  entrance: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/56784cacd_Entrancepic.jpg",
-  signboard: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/a12ee88db_Signboard.jpg",
-  scienceLab: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/c55a54df9_Sciencelab.jpg",
-  ictLab: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/443f308e3_ICTLab.jpg",
-  classroom12Unit: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/5c7783a9b_12Unitclassroom.jpg",
-  classroom18Unit: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/bd8310e44_Ongoiing18unitclassroomlock.jpg",
-  dormPic: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/bfec78cf2_Dormpic.jpg",
-  dorm: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/18e4f18dc_Dorm.jpg",
-  dorm1: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/9720a77ac_Dorm1.jpg",
-  cadet1: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/9e572622c_Cadet1.jpg",
-  cadet: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/7abcff726_Cadet.jpg",
-  scienceStudents: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/fa19fc3a1_SCiencestudentswithteacher.jpg",
-  ictLabPic: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/40e5d5bb2_ICTLabPic.jpg",
-  mosque: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/fb6f1bd6a_Mosque.jpg",
-  clinic: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/680892fb2_Schoolclinic.jpg",
-  staffBungalow: "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/023e66255_Staffbungalow.jpg",
+  logo,
+  entrance,
+  signboard,
+  scienceLab,
+  ictLab,
+  classroom12Unit,
+  classroom18Unit,
+  dormPic,
+  dorm,
+  dorm1,
+  cadet1,
+  cadet,
+  scienceStudents,
+  ictLabPic,
+  mosque,
+  clinic,
+  staffBungalow,
 };
 
 // Official school data extracted from the Signboard asset.
