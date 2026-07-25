@@ -2,8 +2,7 @@ const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me
 
 import React from "react";
 import { useProspectus } from "@/lib/prospectusContext";
-
-const CREST = "https://media.db.com/images/public/6a4e755512eb97a4fb0799c6/820a2436b_generated_b8b55bb9.png";
+import logo from "@/assets/images/logo.png";
 
 export default function ProspectusDocument({ student, indexNumber, house }) {
   const { prospectus } = useProspectus();
@@ -14,7 +13,7 @@ export default function ProspectusDocument({ student, indexNumber, house }) {
       <div className="max-w-2xl mx-auto admission-card">
         {/* Header */}
         <div className="text-center border-b-2 border-heritage-green pb-6 mb-6">
-          <img src={CREST} alt="IGSHS Crest" className="w-20 h-20 mx-auto mb-3 object-contain" />
+          <img src={logo} alt="IGSHS Crest" className="w-20 h-20 mx-auto mb-3 object-contain" />
           <h1 className="font-heading text-2xl font-bold text-heritage-green uppercase tracking-wider">
             Islamic Girls Senior High School
           </h1>
