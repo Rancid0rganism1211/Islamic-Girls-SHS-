@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
@@ -34,7 +34,7 @@ export default function AdminLogin() {
         navigate('/admin/dashboard');
       } else {
         // Sign out the user if they don't have admin privileges
-        await auth.signOut();
+        await signOut(auth);
         setError("Access Denied: Administrative privileges required");
       }
     } catch (err) {
