@@ -4,6 +4,7 @@ import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import ProtectedAdminRoute from '@/components/ProtectedAdminRoute';
 import ScrollToTop from './components/ScrollToTop';
 import PageNotFound from './lib/PageNotFound';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -18,6 +19,7 @@ import Contact from '@/pages/Contact';
 
 // Auth pages
 import Login from '@/pages/Login';
+import AdminLogin from '@/pages/admin/AdminLogin';
 
 // Admin pages
 import AdminLayout from '@/components/layout/AdminLayout';
@@ -46,9 +48,10 @@ const AuthenticatedApp = () => {
 
       {/* Auth routes */}
       <Route path="/login" element={<Login />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
 
-      {/* Admin routes - protected */}
-      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+      {/* Admin routes - protected with admin role check */}
+      <Route element={<ProtectedAdminRoute />}>
         <Route element={<AdminLayout />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/placements" element={<AdminPlacements />} />
