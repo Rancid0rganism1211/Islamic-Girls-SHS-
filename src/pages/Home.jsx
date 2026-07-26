@@ -51,7 +51,7 @@ export default function Home() {
         <div className="relative z-10 min-h-[550px] flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div className="max-w-2xl">
-              <p className="text-heritage-gold text-sm font-semibold tracking-widest uppercase mb-4">Est. 1999 · Suhum, Eastern Region</p>
+              <p className="text-heritage-gold text-sm font-semibold tracking-widest uppercase mb-4">IGSHS since 1999 · Suhum, Eastern Region</p>
               <h1 className="font-heading text-3xl md:text-5xl text-heritage-cream font-bold leading-tight">
                 Moulding Girls to be Globally Competitive in a Conducive Learning Environment with Islamic Tenets
               </h1>
