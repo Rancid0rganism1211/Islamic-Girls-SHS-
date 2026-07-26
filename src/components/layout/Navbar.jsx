@@ -34,7 +34,7 @@ export default function Navbar() {
             <div className="h-14 rounded-lg overflow-hidden bg-heritage-cream shrink-0 flex items-center">
               <img src={SCHOOL_IMAGES.logo} alt="IGSHS Logo" className="h-14 w-auto object-contain" />
             </div>
-            <div className="hidden sm:block">
+            <div>
               <p className="font-heading text-heritage-cream text-lg font-semibold leading-tight">IGSHS</p>
               <p className="text-heritage-gold text-xs tracking-wider">Suhum · Est. 1999</p>
             </div>
