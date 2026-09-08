@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 import { dbEntities } from '@/lib/firestore';
 
 import SectionHeader from "@/components/shared/SectionHeader";
@@ -38,6 +39,11 @@ export default function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>Home - Islamic Girls Senior High School, Suhum</title>
+        <meta name="description" content="Welcome to Islamic Girls Senior High School (IGSHS) Suhum. Moulding girls to be globally competitive in a conducive learning environment with Islamic tenets since 1999." />
+        <link rel="canonical" href="https://www.islamicgirlsshs.com/" />
+      </Helmet>
       <EventsTicker />
 
       {/* Hero Section — Entrance background */}
@@ -203,7 +209,7 @@ export default function Home() {
           <SectionHeader title="Instilling Discipline and Leadership" subtitle="Building confident, responsible young women through our cadet corps." />
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">
             <div>
-              <PremiumImage src={SCHOOL_IMAGES.cadet1} alt="IGSHS cadet leader" containerClassName="h-[400px]" />
+              <PremiumImage src={SCHOOL_IMAGES.cadet1} alt="IGSHS cadet leader" containerClassName="h-[400px]" objectPosition="object-top" />
               <div className="mt-6">
                 <h3 className="font-heading text-xl font-semibold text-heritage-green mb-2">Individual Leadership</h3>
                 <p className="text-heritage-slate/70 leading-relaxed">
@@ -212,7 +218,7 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <PremiumImage src={SCHOOL_IMAGES.cadet} alt="IGSHS cadet battalion" containerClassName="h-[400px]" />
+              <PremiumImage src={SCHOOL_IMAGES.cadet} alt="IGSHS cadet battalion" containerClassName="h-[400px]" objectPosition="object-top" />
               <div className="mt-6">
                 <h3 className="font-heading text-xl font-semibold text-heritage-green mb-2">The Battalion</h3>
                 <p className="text-heritage-slate/70 leading-relaxed">
